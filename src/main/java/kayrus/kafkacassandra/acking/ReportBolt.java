@@ -1,10 +1,11 @@
-package quux00.wordcount.nonacking;
+package kayrus.kafkacassandra.acking;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -17,10 +18,12 @@ public class ReportBolt extends BaseRichBolt {
   private static final long serialVersionUID = 6102304822420418016L;
   
   private Map<String, Long> counts;
-
+  private OutputCollector collector;
+  
   @Override @SuppressWarnings("rawtypes")
   public void prepare(Map stormConf, TopologyContext context, OutputCollector outCollector) {
-    counts = new HashMap<String, Long>();
+    collector = outCollector;
+//    counts = new HashMap<String, Long>();
   }
 
   @Override
@@ -30,10 +33,25 @@ public class ReportBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple tuple) {
-    String word = tuple.getString(0);
-    Long count = tuple.getLong(1);
+//    byte[] valueBytes = (byte[]) tuple.getValueByField("bytes");
+    Object value = tuple.getValue(0);
+//    Tuple tup = '{}: {}'.format(*tuple)
 
-    counts.put(word, count);
+    long sentence = 0;
+    if (value instanceof Long) {
+      sentence = (long) value;
+      System.out.println("1");
+    } else {
+      System.out.println("2");
+    }
+
+    System.out.println("hello_world: " + Long.toString(sentence));
+
+//    String word = tuple.getString(0);
+//    Long count = tuple.getLong(1);
+
+//    counts.put(word, count);
+    collector.ack(tuple);
   }
 
   @Override

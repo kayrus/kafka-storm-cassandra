@@ -28,8 +28,8 @@ This code has been tested on Linux in cluster-mode using:
 and
 
 * Storm 0.9.3
-* Kafka 2.10-0.8.2-beta
-* the version of Zookeeper that comes with kafka_2.10-0.8.2-beta (zookeeper-3.4.6)
+* Kafka 2.10-0.8.2.0
+* the version of Zookeeper that comes with kafka_2.10-0.8.2.0 (zookeeper-3.4.6)
 
 
 # Usage
@@ -53,11 +53,9 @@ Compile and build the uber-jar:
 
     mvn clean package
 
-Submit the uber-jar to storm and specify either the Acked or NonAcked Topology:
+Submit the uber-jar to storm and specify either the Acked:
 
-    storm jar target/kstorm-1.0-SNAPSHOT-jar-with-dependencies.jar quux00.wordcount.kafka.WordCountNonAckedTopology
-    # or
-    storm jar target/kstorm-1.0-SNAPSHOT-jar-with-dependencies.jar quux00.wordcount.kafka.WordCountAckedTopology
+    storm jar target/kafka-storm-cassandra-1.0-SNAPSHOT-jar-with-dependencies.jar kayrus.kafkacassandra.kafka.KafkaCassandraAckedTopology
 
 Now you'll need to put some sentences into the sentence topic.
 
@@ -68,7 +66,7 @@ You can either do it manually with:
 
 or use the example code I provide that puts in a bunch of sentences over a few minutes.
 
-    java -cp target/kstorm-1.0-SNAPSHOT-jar-with-dependencies.jar quux00.wordcount.kafka.PopulateKafkaSentenceTopic
+    java -cp target/kafka-storm-cassandra-1.0-SNAPSHOT-jar-with-dependencies.jar kayrus.kafkacassandra.kafka.PopulateKafkaSentenceTopic
 
 
 If you have the Storm UI launched (`storm ui`) you can go to [http://localhost:8080](http://localhost:8080) and watch the progress of the topology

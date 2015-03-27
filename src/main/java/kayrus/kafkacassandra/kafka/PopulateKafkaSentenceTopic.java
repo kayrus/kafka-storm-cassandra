@@ -1,4 +1,4 @@
-package quux00.wordcount.kafka;
+package kayrus.kafkacassandra.kafka;
 
 import java.util.Properties;
 
@@ -9,7 +9,7 @@ import kafka.producer.ProducerConfig;
 
 public class PopulateKafkaSentenceTopic {
   
-  private static final String KAFKA_HOST_PORT = "localhost:9092";
+  private static final String KAFKA_HOST_PORT = "172.17.8.101:9092";
   private static final String TOPIC = "sentences";
   private static final int NUM_TO_PUBLISH = 10000;
   
