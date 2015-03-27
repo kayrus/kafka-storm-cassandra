@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.io.UnsupportedEncodingException;
 
 import backtype.storm.task.OutputCollector;
@@ -33,36 +34,56 @@ public class ReportBolt extends BaseRichBolt {
 
   @Override
   public void execute(Tuple tuple) {
-//    byte[] valueBytes = (byte[]) tuple.getValueByField("bytes");
     Object value = tuple.getValue(0);
-//    Tuple tup = '{}: {}'.format(*tuple)
-
-    long sentence = 0;
+    long timestamp = 0;
     if (value instanceof Long) {
-      sentence = (long) value;
-      System.out.println("1");
-    } else {
-      System.out.println("2");
+      timestamp = (long) value;
     }
 
-    System.out.println("hello_world: " + Long.toString(sentence));
+    value = tuple.getValue(1);
+    UUID id = new UUID(0L, 0L);
+    if (value instanceof UUID) {
+      id = (UUID) value;
+    }
 
-//    String word = tuple.getString(0);
-//    Long count = tuple.getLong(1);
+    value = tuple.getValue(2);
+    double P_1 = 0;
+    if (value instanceof Double) {
+      P_1 = (double) value;
+    }
 
-//    counts.put(word, count);
+    value = tuple.getValue(3);
+    double P_2 = 0;
+    if (value instanceof Double) {
+      P_2 = (double) value;
+    }
+
+    value = tuple.getValue(4);
+    double P_3 = 0;
+    if (value instanceof Double) {
+      P_3 = (double) value;
+    }
+
+    value = tuple.getValue(5);
+    double Q_1 = 0;
+    if (value instanceof Double) {
+      Q_1 = (double) value;
+    }
+
+    value = tuple.getValue(6);
+    double Q_2 = 0;
+    if (value instanceof Double) {
+      Q_2 = (double) value;
+    }
+
+    value = tuple.getValue(7);
+    double Q_3 = 0;
+    if (value instanceof Double) {
+      Q_3 = (double) value;
+    }
+
+    System.out.println(Long.toString(timestamp) + " " + id.toString() + " " + Double.toString(P_1) + " " + Double.toString(P_2) + " " + Double.toString(P_3) + " " + Double.toString(Q_1) + " " + Double.toString(Q_2) + " " + Double.toString(Q_3));
+
     collector.ack(tuple);
-  }
-
-  @Override
-  public void cleanup() {
-    System.out.println("--- FINAL COUNTS ---");
-    List<String> keys = new ArrayList<String>();
-    keys.addAll(counts.keySet());
-    Collections.sort(keys);
-    for (String key : keys) {
-      System.out.println(key + " : " + counts.get(key));
-    }
-    System.out.println("--------------");    
   }
 }
